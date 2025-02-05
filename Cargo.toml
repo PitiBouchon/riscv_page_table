@@ -1,0 +1,159 @@
+[package]
+name = "riscv_page_table"
+authors = ["PtiBouchon"]
+version = "0.0.1"
+edition = "2021"
+description = """
+Page table structure for RiscV
+"""
+
+[lints.rust]
+absolute_paths_not_starting_with_crate = "warn"
+ambiguous_negative_literals = "warn"
+keyword_idents = "warn"
+explicit_outlives_requirements = "warn"
+# fuzzy_provenance_casts = "warn" # TODO: maybe enable when stable
+let_underscore_drop = "warn"
+# lossy_provenance_casts = "warn" # TODO: maybe enable when stable
+macro_use_extern_crate = "warn"
+meta_variable_misuse = "warn"
+missing_abi = "warn"
+missing_copy_implementations = "warn"
+missing_debug_implementations = "warn"
+# missing_docs = "warn" # TODO: write doc
+missing_unsafe_on_extern = "warn"
+# multiple_supertrait_upcastable = "warn" # TODO: enable when stable
+non_ascii_idents = "warn"
+# non_exhaustive_omitted_patterns = "warn" # TODO: enable when stable
+redundant_imports = "warn"
+redundant_lifetimes = "warn"
+single_use_lifetimes = "warn"
+trivial_casts = "warn"
+trivial_numeric_casts = "warn"
+unit_bindings = "warn"
+unnameable_types = "warn"
+# unreachable_pub = "warn" # TODO: enable this one day
+unsafe_attr_outside_unsafe = "warn"
+unsafe_op_in_unsafe_fn = "warn"
+# unused_crate_dependencies = "warn" # TODO: enable this later
+unused_extern_crates = "warn"
+unused_import_braces = "warn"
+unused_lifetimes = "warn"
+unused_macro_rules = "warn"
+unused_qualifications = "warn"
+unused_results = "warn"
+variant_size_differences = "warn"
+
+[lints.clippy]
+# Cargo
+cargo = { level = "warn", priority = -1 }
+cargo_common_metadata = "allow" # TODO: remove when releasing
+
+# Nursery
+nursery = { level = "warn", priority = -1 }
+# cognitive_complexity = "allow" # TODO: do I need this ?
+missing_const_for_fn = "allow"
+
+# Pedantic
+pedantic = { level = "warn", priority = -1 }
+
+# Restriction
+alloc_instead_of_core = "warn"
+allow_attributes = "warn"
+allow_attributes_without_reason = "warn"
+arithmetic_side_effects = "warn"
+as_pointer_underscore = "warn"
+as_underscore = "warn"
+assertions_on_result_states = "warn"
+cfg_not_test = "warn"
+clone_on_ref_ptr = "warn"
+dbg_macro = "warn"
+default_numeric_fallback = "warn"
+default_union_representation = "warn"
+deref_by_slicing = "warn"
+disallowed_script_idents = "warn"
+doc_include_without_cfg = "warn"
+else_if_without_else = "warn"
+empty_drop = "warn"
+empty_enum_variants_with_brackets = "warn"
+empty_structs_with_brackets = "warn"
+error_impl_error = "warn"
+exit = "warn"
+field_scoped_visibility_modifiers = "warn"
+float_arithmetic = "warn"
+float_cmp_const = "warn"
+format_push_string = "warn"
+get_unwrap = "warn"
+host_endian_bytes = "warn"
+if_then_some_else_none = "warn"
+impl_trait_in_params = "warn"
+indexing_slicing = "warn"
+inefficient_to_string = "warn"
+infinite_loop = "warn"
+integer_division = "warn"
+large_include_file = "warn"
+let_underscore_must_use = "warn"
+let_underscore_untyped = "warn"
+lossy_float_literal = "warn"
+map_err_ignore = "warn"
+map_with_unused_argument_over_ranges = "warn"
+mem_forget = "warn"
+missing_assert_message = "warn"
+missing_asserts_for_indexing = "warn"
+# missing_docs_in_private_items = "warn" # TODO: one day doc everything ?
+mixed_read_write_in_expression = "warn"
+modulo_arithmetic = "warn"
+multiple_inherent_impl = "warn"
+multiple_unsafe_ops_per_block = "warn"
+mutex_atomic = "warn"
+needless_raw_strings = "warn"
+non_ascii_literal = "warn"
+non_zero_suggestions = "warn"
+# panic = "warn" # TODO: enable this one day ?
+panic_in_result_fn = "warn"
+partial_pub_fields = "warn"
+pathbuf_init_then_push = "warn"
+print_stderr = "warn"
+print_stdout = "warn"
+pub_without_shorthand = "warn"
+rc_buffer = "warn"
+rc_mutex = "warn"
+redundant_type_annotations = "warn"
+ref_patterns = "warn"
+renamed_function_params = "warn"
+rest_pat_in_fully_bound_structs = "warn"
+same_name_method = "warn"
+self_named_module_files = "warn"
+semicolon_outside_block = "warn"
+# shadow_reuse = "warn" # TODO: do I disable shadowing ?
+shadow_same = "warn"
+shadow_unrelated = "warn"
+std_instead_of_alloc = "warn"
+std_instead_of_core = "warn"
+str_to_string = "warn"
+string_add = "warn"
+string_lit_chars_any = "warn"
+string_slice = "warn"
+string_to_string = "warn"
+suspicious_xor_used_as_pow = "warn"
+tests_outside_test_module = "warn"
+# todo = "warn" # TODO: remove todos
+try_err = "warn"
+undocumented_unsafe_blocks = "warn"
+# unimplemented = "warn" # TODO: remove unimplementeds
+unnecessary_safety_comment = "warn"
+unnecessary_safety_doc = "warn"
+unnecessary_self_imports = "warn"
+unneeded_field_pattern = "warn"
+# unreachable = "warn" # TODO: remove unreachables
+unseparated_literal_suffix = "warn"
+unused_result_ok = "warn"
+unused_trait_names = "warn"
+unwrap_in_result = "warn"
+unwrap_used = "warn"
+# use_debug = "warn" # TODO: remove debugging remnants
+verbose_file_reads = "warn"
+wildcard_enum_match_arm = "warn"
+
+[dependencies]
+bit_field = "0.10.2"
