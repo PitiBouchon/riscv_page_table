@@ -1,11 +1,12 @@
+pub mod mode;
+
+use core::marker::PhantomData;
+
 use bit_field::BitField as _;
-
-// TODO: handle 32 bits
-
-pub const MAX_VIRTUAL_ADDR: u64 = 1 << (9 + 9 + 9 + 12 - 1);
+use mode::AddressingMode;
 
 #[derive(Debug, Eq, PartialEq, Clone, Copy)]
-pub struct VirtualAddr(u64);
+pub struct VirtualAddr<M: AddressingMode>(usize, PhantomData<M>);
 
 #[derive(Debug)]
 pub(in super::super) struct VirtualPageNumber(pub(in super::super) u16);
@@ -13,45 +14,45 @@ pub(in super::super) struct VirtualPageNumber(pub(in super::super) u16);
 #[derive(Debug)]
 pub(in super::super) struct PageOffset(pub(super) u16);
 
-impl VirtualAddr {
-    pub const fn new(val: u64) -> Self {
-        assert!(val <= MAX_VIRTUAL_ADDR);
-        Self(val)
+impl<M: AddressingMode> VirtualAddr<M> {
+    pub fn new(val: usize) -> Self {
+        assert!(val <= M::MAX_ADDR);
+        Self(val, PhantomData::default())
     }
 
-    pub fn is_align(&self, align: u64) -> bool {
+    pub fn is_align(&self, align: usize) -> bool {
         self.0 % align == 0
     }
 
-    pub const fn add_offset(self, offset: u64) -> Self {
-        assert!(self.0 + offset <= MAX_VIRTUAL_ADDR);
-        Self(self.0 + offset)
+    pub const fn add_offset(self, offset: usize) -> Self {
+        assert!(self.0 + offset <= M::MAX_ADDR);
+        Self(self.0 + offset, self.1)
     }
 
-    pub const fn sub_offset(self, offset: u64) -> Self {
+    pub const fn sub_offset(self, offset: usize) -> Self {
         assert!(offset <= self.0);
-        Self(self.0 - offset)
+        Self(self.0 - offset, self.1)
     }
 
-    pub fn get(&self) -> &u64 {
+    pub fn get(&self) -> &usize {
         &self.0
     }
 
-    pub fn page_round_down(self) -> Self {
-        VirtualAddr(page_round_down(self.0))
-    }
+    // pub fn page_round_down(self) -> Self {
+    //     VirtualAddr(page_round_down(self.0), self.1)
+    // }
 
-    pub fn page_round_up(self) -> Self {
-        VirtualAddr(page_round_up(self.0))
-    }
+    // pub fn page_round_up(self) -> Self {
+    //     VirtualAddr(page_round_up(self.0), self.1)
+    // }
 
-    pub(in super::super) fn virtual_page_numbers(&self) -> [VirtualPageNumber; 3] {
-        [
-            VirtualPageNumber(self.0.get_bits(12..21) as u16),
-            VirtualPageNumber(self.0.get_bits(21..30) as u16),
-            VirtualPageNumber(self.0.get_bits(30..39) as u16),
-        ]
-    }
+    // pub(in super::super) fn virtual_page_numbers(&self) -> [VirtualPageNumber; 3] {
+    //     [
+    //         VirtualPageNumber(self.0.get_bits(12..21) as u16),
+    //         VirtualPageNumber(self.0.get_bits(21..30) as u16),
+    //         VirtualPageNumber(self.0.get_bits(30..39) as u16),
+    //     ]
+    // }
 
     pub(in super::super) fn page_offset(&self) -> PageOffset {
         PageOffset((self.0.get_bits(0..12)) as u16)
@@ -59,7 +60,7 @@ impl VirtualAddr {
 }
 
 #[derive(Debug, Eq, PartialEq, Clone)]
-pub struct PhysicalAddr(pub(in super::super) u64);
+pub struct PhysicalAddr<M: AddressingMode>(pub(in super::super) u64);
 
 impl PhysicalAddr {
     pub fn new(val: u64) -> Self {

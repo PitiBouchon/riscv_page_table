@@ -6,11 +6,13 @@ const PTE_BIT_READ: usize = 1;
 const PTE_BIT_WRITE: usize = 2;
 const PTE_BIT_EXECUTE: usize = 3;
 const PTE_BIT_USER: usize = 4;
+const PTE_BIT_GLOBAL: usize = 5;
+const PTE_BIT_ACCESS: usize = 6;
+const PTE_BIT_DIRTY: usize = 7;
 
 #[derive(Debug, Copy, Clone)]
 pub struct PTEPermission(pub u8);
 
-#[expect(clippy::derivable_impls, reason = "expliciteness")]
 impl Default for PTEPermission {
     fn default() -> Self {
         Self(0)
@@ -54,7 +56,26 @@ impl PTEPermission {
         Self(res)
     }
 
-    // TODO : set_global (maybe set_dirty and set_access)
+    #[must_use]
+    pub fn global() -> Self {
+        let mut res = 0;
+        let _res = res.set_bit(PTE_BIT_GLOBAL, true);
+        Self(res)
+    }
+
+    #[must_use]
+    pub fn access() -> Self {
+        let mut res = 0;
+        let _res = res.set_bit(PTE_BIT_ACCESS, true);
+        Self(res)
+    }
+
+    #[must_use]
+    pub fn dirty() -> Self {
+        let mut res = 0;
+        let _res = res.set_bit(PTE_BIT_DIRTY, true);
+        Self(res)
+    }
 }
 
 impl BitOr for PTEPermission {
